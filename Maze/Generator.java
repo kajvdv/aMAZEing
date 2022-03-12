@@ -88,4 +88,8 @@ public class Generator {
     public int[] getPosition() {
         return currentPosition;
     }
+
+    public boolean isGenerated() {
+        return track.size() == 0;
+    }
 }

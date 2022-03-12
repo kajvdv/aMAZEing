@@ -4,22 +4,24 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import Maze.Direction;
 import Maze.Generator;
 import Maze.Hallway;
 import Maze.Maze;
+import Maze.Player;
 
 public class MazeGUI extends JPanel {
     private Generator gen;
+    private Player player;
     
     public MazeGUI(int mazeWidth, int mazeHeight) {
         this.gen = new Generator(mazeWidth, mazeHeight);
+        this.player = new Player(gen.getMaze(), mazeWidth / 2, mazeHeight / 2);
         Maze maze = gen.getMaze();
         Dimension preferredSize = new Dimension(maze.getWidth() * 40, maze.getHeight() * 40);
         setPreferredSize(preferredSize);
@@ -29,8 +31,18 @@ public class MazeGUI extends JPanel {
 
         addKeyListener(new KeyAdapter(){
             @Override
-            public void keyTyped(KeyEvent e) {
-                gen.carve();
+            public void keyPressed(KeyEvent e) {
+                if (gen.isGenerated() == false) {
+                    gen.carve();
+                }
+                else {
+                    switch(e.getKeyCode()) {
+                        case KeyEvent.VK_UP: player.move(Direction.NORTH); break;
+                        case KeyEvent.VK_RIGHT: player.move(Direction.EAST); break;
+                        case KeyEvent.VK_DOWN: player.move(Direction.SOUTH); break;
+                        case KeyEvent.VK_LEFT: player.move(Direction.WEST); break;
+                    }
+                }
                 repaint();
             }
         });
@@ -40,7 +52,6 @@ public class MazeGUI extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Maze maze = gen.getMaze();
-        Hallway[] hallways = maze.getMazeHallways();
         // draw corners
         for (int j = 0; j < maze.getHeight(); j++) {
             for (int i = 0; i < maze.getWidth(); i++) {
@@ -64,9 +75,16 @@ public class MazeGUI extends JPanel {
                 if (!hallway.southWall) g.fillRect(x + 5, y + 40 - 5, 30, 5);            
             }
         }
-        g.setColor(Color.RED);
-        int[] pos = gen.getPosition();
-        g.fillRect(pos[0] * 40 + 5, pos[1] * 40 + 5, 30, 30);
+        // draw position of generator
+        if (gen.isGenerated() == false) { 
+            g.setColor(Color.RED);
+            int[] pos = gen.getPosition();
+            g.fillRect(pos[0] * 40 + 5, pos[1] * 40 + 5, 30, 30);
+        }
+        else {
+            g.setColor(Color.YELLOW);
+            g.fillRect(player.getX() * 40 + 5, player.getY() * 40 + 5, 30, 30);
+        }
     }
 
     public static void main(String[] args) {
@@ -75,7 +93,7 @@ public class MazeGUI extends JPanel {
             public void run() {
                 JFrame frame = new JFrame("Maze");
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setContentPane(new MazeGUI(30, 20));
+                frame.setContentPane(new MazeGUI(5, 5));
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
