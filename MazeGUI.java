@@ -82,7 +82,7 @@ public class MazeGUI extends JPanel {
             g.fillRect(pos[0] * 40 + 5, pos[1] * 40 + 5, 30, 30);
         }
         else {
-            g.setColor(Color.YELLOW);
+            g.setColor(Color.BLUE);
             g.fillRect(player.getX() * 40 + 5, player.getY() * 40 + 5, 30, 30);
         }
     }
@@ -93,7 +93,7 @@ public class MazeGUI extends JPanel {
             public void run() {
                 JFrame frame = new JFrame("Maze");
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setContentPane(new MazeGUI(5, 5));
+                frame.setContentPane(new MazeGUI(30, 20));
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);

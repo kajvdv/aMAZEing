@@ -10,7 +10,7 @@ public class Generator {
     private Random rand = new Random();
     int[] currentPosition = {0, 0};
     Stack<int[]> track = new Stack<int[]>(); 
-    Direction[] moveableDirections = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+    Direction[] moveableDirections = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.SOUTH, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.SOUTH};
 
     
     public Generator(int width, int height) {
@@ -23,14 +23,11 @@ public class Generator {
         ArrayList<Direction> possibleDirections = new ArrayList<Direction>();
         for (Direction dir : moveableDirections) {
             if (isPossible(dir)) {
-                System.out.print(dir.toString() + " ");
                 possibleDirections.add(dir);
             }
         }
-        System.out.println("------");
         if (possibleDirections.size() == 0) {
             currentPosition = track.pop();
-            System.out.println("pop");
             return;
         }
         track.push(Arrays.copyOf(currentPosition, 2));
