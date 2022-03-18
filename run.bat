@@ -1,3 +1,3 @@
 @echo off
-javac MazeGui.java -d bin
+javac src/MazeGui.java src/maze/*.java -d bin
 java -cp bin MazeGUI
