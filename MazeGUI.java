@@ -12,6 +12,7 @@ import javax.swing.WindowConstants;
 import Maze.Direction;
 import Maze.Generator;
 import Maze.Hallway;
+import Maze.Location;
 import Maze.Maze;
 import Maze.Player;
 
@@ -21,7 +22,7 @@ public class MazeGUI extends JPanel {
     
     public MazeGUI(int mazeWidth, int mazeHeight) {
         this.gen = new Generator(mazeWidth, mazeHeight);
-        this.player = new Player(gen.getMaze(), mazeWidth / 2, mazeHeight / 2);
+        this.player = new Player(gen.getMaze(), new Location(mazeWidth / 2, mazeHeight / 2));
         Maze maze = gen.getMaze();
         Dimension preferredSize = new Dimension(maze.getWidth() * 40, maze.getHeight() * 40);
         setPreferredSize(preferredSize);
@@ -78,12 +79,13 @@ public class MazeGUI extends JPanel {
         // draw position of generator
         if (gen.isGenerated() == false) { 
             g.setColor(Color.RED);
-            int[] pos = gen.getPosition();
-            g.fillRect(pos[0] * 40 + 5, pos[1] * 40 + 5, 30, 30);
+            Location pos = gen.getPosition();
+            g.fillRect(pos.x * 40 + 5, pos.y * 40 + 5, 30, 30);
         }
         else {
             g.setColor(Color.BLUE);
-            g.fillRect(player.getX() * 40 + 5, player.getY() * 40 + 5, 30, 30);
+            Location loc = player.getLocation();
+            g.fillRect(loc.x * 40 + 5, loc.y * 40 + 5, 30, 30);
         }
     }
 

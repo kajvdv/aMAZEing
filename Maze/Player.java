@@ -2,51 +2,49 @@ package Maze;
 
 public class Player {
     private Maze maze;
-    private int X;
-    private int Y;
+    private Location loc;
 
-    public Player(Maze maze, int X, int Y) {
+    public Player(Maze maze, Location loc) {
         this.maze = maze;
-        this.X = X;
-        this.Y = Y;
+        this.loc = loc;
     }
 
     // Moves the player through the maze. Returns True on succes
     public boolean move(Direction dir) {
-        Hallway currentHallway = maze.getHallway(X, Y);
+        Hallway currentHallway = maze.getHallway(loc.x, loc.y);
         Hallway destination;
         switch(dir) {
             case NORTH: 
-                destination = maze.getHallway(X, Y - 1);
+                destination = maze.getHallway(loc.x, loc.y - 1);
                 if (currentHallway.northWall == true && destination.southWall == true) {
-                    Y -= 1;
+                    loc.y -= 1;
                     return true;
                 }
                 else {
                     return false;
                 }
             case EAST:
-                destination = maze.getHallway(X + 1, Y);
+                destination = maze.getHallway(loc.x + 1, loc.y);
                 if (currentHallway.eastWall == true && destination.westWall == true) {
-                    X += 1;
+                    loc.x += 1;
                     return true;
                 }
                 else {
                     return false;
                 }
             case SOUTH:
-                destination = maze.getHallway(X, Y + 1);
+                destination = maze.getHallway(loc.x, loc.y + 1);
                 if (currentHallway.southWall == true && destination.northWall == true) {
-                    Y += 1;
+                    loc.y += 1;
                     return true;
                 }
                 else {
                     return false;
                 }
             case WEST:
-                destination = maze.getHallway(X - 1, Y);
+                destination = maze.getHallway(loc.x - 1, loc.y);
                 if (currentHallway.westWall == true && destination.eastWall == true) {
-                    X -= 1;
+                    loc.x -= 1;
                     return true;
                 }
                 else {
@@ -57,7 +55,8 @@ public class Player {
         }
     }
 
-    public int getX() { return X; }
-    public int getY() { return Y; }
+    public Location getLocation() {
+        return loc;
+    }
 
 }

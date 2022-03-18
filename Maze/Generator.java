@@ -1,6 +1,5 @@
 package Maze;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 
@@ -8,14 +7,14 @@ import java.util.Stack;
 public class Generator {
     private Maze maze;
     private Random rand = new Random();
-    int[] currentPosition = {0, 0};
-    Stack<int[]> track = new Stack<int[]>(); 
+    Location currentPosition = new Location(0, 0);
+    Stack<Location> track = new Stack<Location>(); 
     Direction[] moveableDirections = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.SOUTH, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.SOUTH};
 
     
     public Generator(int width, int height) {
         this.maze = new Maze(width, height);
-        track.push(Arrays.copyOf(currentPosition, 2));
+        track.push(new Location(currentPosition));
     }
 
     public void carve() {
@@ -30,28 +29,28 @@ public class Generator {
             currentPosition = track.pop();
             return;
         }
-        track.push(Arrays.copyOf(currentPosition, 2));
+        track.push(new Location(currentPosition));
         int newDirection = rand.nextInt(possibleDirections.size());
         switch(possibleDirections.get(newDirection)) {
             case NORTH:
-                maze.getHallway(currentPosition[0], currentPosition[1]).northWall = true;
-                currentPosition[1] -= 1;
-                maze.getHallway(currentPosition[0], currentPosition[1]).southWall = true;
+                maze.getHallway(currentPosition.x, currentPosition.y).northWall = true;
+                currentPosition.y -= 1;
+                maze.getHallway(currentPosition.x, currentPosition.y).southWall = true;
                 break;
             case EAST:
-                maze.getHallway(currentPosition[0], currentPosition[1]).eastWall = true;
-                currentPosition[0] += 1;
-                maze.getHallway(currentPosition[0], currentPosition[1]).westWall = true;
+                maze.getHallway(currentPosition.x, currentPosition.y).eastWall = true;
+                currentPosition.x += 1;
+                maze.getHallway(currentPosition.x, currentPosition.y).westWall = true;
                 break;
             case SOUTH:
-                maze.getHallway(currentPosition[0], currentPosition[1]).southWall = true;
-                currentPosition[1] += 1;
-                maze.getHallway(currentPosition[0], currentPosition[1]).northWall = true;
+                maze.getHallway(currentPosition.x, currentPosition.y).southWall = true;
+                currentPosition.y += 1;
+                maze.getHallway(currentPosition.x, currentPosition.y).northWall = true;
                 break;
             case WEST:
-                maze.getHallway(currentPosition[0], currentPosition[1]).westWall = true;
-                currentPosition[0] -= 1;
-                maze.getHallway(currentPosition[0], currentPosition[1]).eastWall = true;
+                maze.getHallway(currentPosition.x, currentPosition.y).westWall = true;
+                currentPosition.x -= 1;
+                maze.getHallway(currentPosition.x, currentPosition.y).eastWall = true;
                 break;
         }
     }
@@ -60,16 +59,16 @@ public class Generator {
         Hallway nextHallway;
         switch (dir) {
             case NORTH:
-                nextHallway = maze.getHallway(currentPosition[0], currentPosition[1] - 1);
+                nextHallway = maze.getHallway(currentPosition.x, currentPosition.y - 1);
                 break;
             case EAST:
-                nextHallway = maze.getHallway(currentPosition[0] + 1, currentPosition[1]);
+                nextHallway = maze.getHallway(currentPosition.x + 1, currentPosition.y);
                 break;
             case SOUTH:
-                nextHallway = maze.getHallway(currentPosition[0], currentPosition[1] + 1);
+                nextHallway = maze.getHallway(currentPosition.x, currentPosition.y + 1);
                 break;
             case WEST:
-                nextHallway = maze.getHallway(currentPosition[0] - 1, currentPosition[1]);
+                nextHallway = maze.getHallway(currentPosition.x - 1, currentPosition.y);
                 break;
             default:
                 return false;
@@ -82,7 +81,7 @@ public class Generator {
         return maze;
     }
 
-    public int[] getPosition() {
+    public Location getPosition() {
         return currentPosition;
     }
 
