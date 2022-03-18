@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import Maze.Direction;
-import Maze.Generator;
-import Maze.Hallway;
-import Maze.Location;
-import Maze.Maze;
-import Maze.Player;
+import maze.Direction;
+import maze.Generator;
+import maze.Hallway;
+import maze.Location;
+import maze.Player;
+import maze.Maze;
 
 public class MazeGUI extends JPanel {
     private Generator gen;

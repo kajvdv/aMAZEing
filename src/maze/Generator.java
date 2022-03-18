@@ -1,4 +1,4 @@
-package Maze;
+package maze;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
@@ -9,7 +9,7 @@ public class Generator {
     private Random rand = new Random();
     Location currentPosition = new Location(0, 0);
     Stack<Location> track = new Stack<Location>(); 
-    Direction[] moveableDirections = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.SOUTH, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.SOUTH};
+    Direction[] moveableDirections = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     
     public Generator(int width, int height) {
